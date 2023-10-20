@@ -3,20 +3,9 @@
 import Image from 'next/image'
 import Stream from '@/app/components/stream'
 import { Provider } from 'react-redux';
-import store from './store';
-
-interface Track {
-  title: string;
-  id: number;
-}
+import store from './store/store';
 
 export default function Home() {
-  const tracks: Track[] = [
-    { title: "Track 1", id: 1 },
-    { title: "Track 2", id: 2 },
-    { title: "Track 3", id: 3 },
-  ];
-
   return (
     <Provider store={store}>
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
