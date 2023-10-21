@@ -2,7 +2,7 @@
 
 import { Provider } from 'react-redux';
 import store from './store/store';
-import Stream from './components/stream';
+import Stream from './components/Stream';
 import Header from './components/Header';
 import Footer from './components/Footer';
 

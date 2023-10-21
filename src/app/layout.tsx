@@ -1,22 +1,23 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import authOptions from "@/app/api/auth/[...nextauth]/authOptions";
+import "./globals.css";
+import AuthSessionProvider from "./components/AuthSessionProvider";
+import { getServerSession } from "next-auth";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: 'MoodToTunes',
-  description: 'Listen to music you are in the mood for',
-}
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <AuthSessionProvider session={session}>
+        <body className={inter.className}>{children}</body>
+      </AuthSessionProvider>
     </html>
-  )
+  );
 }
