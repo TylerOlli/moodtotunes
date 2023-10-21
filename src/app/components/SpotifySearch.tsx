@@ -1,0 +1,44 @@
+import { SearchResults, SpotifyApi } from "@spotify/web-api-ts-sdk";
+import { JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, useEffect, useState } from "react";
+
+interface Props {
+  sdk: SpotifyApi;
+}
+
+export default function SpotifySearch({ sdk }: Props) {
+  const [results, setResults] = useState<SearchResults>({} as SearchResults);
+
+  useEffect(() => {
+    (async () => {
+      const results = await sdk.search("The Beatles", ["artist"]);
+      setResults(() => results);
+    })();
+  }, [sdk]);
+
+  // generate a table for the results
+  const tableRows = results.artists?.items.map((artist: { id: Key | null | undefined; name: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; popularity: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; followers: { total: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }; }) => {
+    return (
+      <tr key={artist.id}>
+        <td>{artist.name}</td>
+        <td>{artist.popularity}</td>
+        <td>{artist.followers.total}</td>
+      </tr>
+    );
+  });
+
+  return (
+    <>
+      <h1>Spotify Search for The Beatles</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Popularity</th>
+            <th>Followers</th>
+          </tr>
+        </thead>
+        <tbody>{tableRows}</tbody>
+      </table>
+    </>
+  );
+}
